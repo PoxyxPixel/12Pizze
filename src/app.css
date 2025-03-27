@@ -1,0 +1,163 @@
+/* App.css */
+:root {
+    --primary-color: #4285f4;
+    --secondary-color: #f1f3f4;
+    --border-color: #dadce0;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #202124;
+    background-color: #f8f9fa;
+  }
+  
+  .app {
+    max-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .toolbar {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+  }
+  
+  .zoom-controls, .page-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    transition: background-color 0.2s;
+  }
+  
+  button:disabled {
+    background-color: var(--secondary-color);
+    color: #5f6368;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #3367d6;
+  }
+  
+  .page-info {
+    font-size: 14px;
+    margin: 0 10px;
+  }
+  
+  .page-info input {
+    width: 40px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+  
+  .pdf-container {
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .pdf-page-container {
+    margin: 0 auto 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: white;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .loading-screen, .error-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--primary-color);
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .error-screen h2 {
+    color: #d32f2f;
+    margin-bottom: 10px;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .toolbar {
+      flex-direction: column;
+      padding: 10px;
+    }
+    
+    .zoom-controls, .page-controls {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .page-info {
+      margin: 0 5px;
+    }
+    
+    .pdf-container {
+      padding: 10px;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .toolbar {
+      display: none;
+    }
+    
+    .pdf-page-container {
+      margin-bottom: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+  }
