@@ -16,7 +16,7 @@ function App() {
   const containerRef = useRef(null);
 
   // Replace with your public S3 PDF URL
-  const PUBLIC_PDF_URL = 'https://12pizzemenu.s3.eu-central-1.amazonaws.com/Index.html';
+  const PUBLIC_PDF_URL = 'https://12pizzemenu.s3.eu-central-1.amazonaws.com/12pMenu.pdf';
 
   useEffect(() => {
     const loadPdf = async () => {
