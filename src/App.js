@@ -28,7 +28,7 @@ function App() {
     };
 
     loadPdf();
-  }, []);
+  }, [renderAllPages]);
 
   const renderAllPages = async (pdfDoc) => {
     containerRef.current.innerHTML = '';
