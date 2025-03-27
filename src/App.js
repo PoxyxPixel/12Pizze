@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 import * as pdfjsLib from 'pdfjs-dist';
 
@@ -14,24 +14,11 @@ function App() {
   // Your S3 PDF URL
   const PDF_URL = "https://12pizzemenu.s3.eu-central-1.amazonaws.com/12pMenu.pdf";
 
-  useEffect(() => {
-    const loadPdf = async () => {
-      try {
-        const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
-        setTotalPages(pdf.numPages);
-        renderAllPages(pdf);
-        setIsLoading(false);
-      } catch (err) {
-        console.error("PDF load error:", err);
-        setIsLoading(false);
-      }
-    };
-
-    loadPdf();
-  }, [renderAllPages]);
-
-  const renderAllPages = async (pdfDoc) => {
+  // Moved inside the component and wrapped in useCallback
+  const renderAllPages = useCallback(async (pdfDoc) => {
+    if (!containerRef.current) return;
     containerRef.current.innerHTML = '';
+    
     for (let i = 1; i <= pdfDoc.numPages; i++) {
       const page = await pdfDoc.getPage(i);
       const viewport = page.getViewport({ scale });
@@ -51,7 +38,23 @@ function App() {
       pageDiv.appendChild(canvas);
       containerRef.current.appendChild(pageDiv);
     }
-  };
+  }, [scale]);
+
+  useEffect(() => {
+    const loadPdf = async () => {
+      try {
+        const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+        setTotalPages(pdf.numPages);
+        await renderAllPages(pdf);
+        setIsLoading(false);
+      } catch (err) {
+        console.error("PDF load error:", err);
+        setIsLoading(false);
+      }
+    };
+
+    loadPdf();
+  }, [renderAllPages]); // Added renderAllPages to dependencies
 
   const zoomIn = () => setScale(s => Math.min(s + 0.25, 3));
   const zoomOut = () => setScale(s => Math.max(s - 0.25, 0.5));
